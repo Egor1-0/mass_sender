@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 
 from app.handlers.handler import router
-from app.handlers.admin import admin
-from app.database.session.create_session import async_main
+from app.handlers.admin.init import admin
+from app.database.create_session import async_main
 
 load_dotenv()
 

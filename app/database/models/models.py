@@ -1,7 +1,9 @@
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.ext.asyncio import AsyncAttrs
 
-from app.database.models.base_model import Base
+class Base(AsyncAttrs, DeclarativeBase):
+    pass
 
 class Admin_id(Base):
     __tablename__ = 'admins_id'
