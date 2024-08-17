@@ -5,9 +5,8 @@ import asyncio
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 
-from app.handlers.handler import router
-from app.handlers.admin.init import admin
-from app.database.create_session import async_main
+from app.handlers.user import admin
+from app.handlers.registr import user_registration
 
 load_dotenv()
 
@@ -15,8 +14,7 @@ bot = Bot(token=os.getenv('TOKEN'))
 dp = Dispatcher()
 
 async def main():
-    await async_main()
-    dp.include_routers(admin, router)
+    dp.include_routers(admin, user_registration)
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
