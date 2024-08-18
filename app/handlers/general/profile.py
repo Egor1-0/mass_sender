@@ -1,7 +1,6 @@
 from aiogram import F, Router
 from aiogram.types import Message
 
-from app.filters.is_payed import IsPayed
 from app.keyboards.profile_keyboard import main_profile_menu, delete_channel, subscription_
 from app.keyboards.user_keyboard import main_menu
 from app.database import db

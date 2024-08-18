@@ -77,12 +77,11 @@ async def get_button_url(message: Message, state: FSMContext):
     data = await state.get_data()
 
     for channel_id in channel_ids:
-        print(channel_id[0])
-        # try:
-        await message.bot.copy_message(chat_id=channel_id[0], from_chat_id=message.chat.id, 
+        try:
+            await message.bot.copy_message(chat_id=channel_id[0], from_chat_id=message.chat.id, 
                                            message_id=data['get_post'], reply_markup=check(data['get_button_text'], data['get_button_url']))
-        # except:
-        #     continue
+        except:
+            continue
 
     await state.clear()
     
