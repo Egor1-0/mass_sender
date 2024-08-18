@@ -1,20 +1,21 @@
 from aiogram import F, Router
 from aiogram.types import Message
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command
 
 from app.filters.is_payed import IsPayed
 from app.keyboards.user_keyboard import main_menu
 
 from app.database import db
 
-user = Router()
+user_router = Router()
 
-user.message.filter(IsPayed())
+user_router.message.filter(IsPayed())
 
-@user.message(CommandStart())
+@user_router.message(CommandStart())
 async def start(message: Message):
-    await message.answer('Выберите кнопки', reply_markup=await main_menu())
+    await message.answer('Выберите кнопки⌨️', reply_markup=await main_menu())
 
-@user.message()
+
+@user_router.message()
 async def nothing(message: Message):
-    await message.answer('Неизвестное действие. Выберите кнопки', reply_markup=await main_menu())
+    await message.answer('Неизвестное действие. Выберите кнопки⌨️', reply_markup=await main_menu())

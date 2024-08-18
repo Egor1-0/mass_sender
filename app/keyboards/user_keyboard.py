@@ -3,7 +3,7 @@ from aiogram.types import KeyboardButton, InlineKeyboardButton
 
 async def main_menu() -> any:
     keyboard = ReplyKeyboardBuilder()
-    keyboard.add(KeyboardButton(text='Создать рассылку')).add(KeyboardButton(text='Добавить канал для рассылки'))
+    keyboard.add(KeyboardButton(text='Создать рассылку')).add(KeyboardButton(text='Добавить канал для рассылки')).add(KeyboardButton(text='Профиль⚙️'))
     return keyboard.adjust(2).as_markup(resize_keyboard = True, one_time_keyboard = True)
 
 async def get_post_menu() -> any:

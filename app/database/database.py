@@ -14,7 +14,7 @@ class Database():
                 CREATE TABLE IF NOT EXISTS 'users' 
                 (
                     user_id BIGINT NOT NULL PRIMARY KEY,
-                    status BOOLEAN DEFAULT(TRUE)
+                    status BOOLEAN DEFAULT(FALSE)
                 );
                   """
             )
@@ -25,10 +25,11 @@ class Database():
                 (
                     item_id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user BIGINT NOT NULL,
+                    channel_name VARCHAR(200),
                     channel_id BIGINT NOT NULL,
+                    status BOOLEAN DEFAULT(TRUE),
                     FOREIGN KEY (user) REFERENCES users (id)
                 );
-
                 """
             )
             self.connection.commit()
@@ -39,12 +40,12 @@ class Database():
             return bool(self.cursor.execute("SELECT user_id FROM users WHERE user_id=?", (user_id,)).fetchone())
 
 
-    def check_status(self, user_id: int) -> bool:
+    def check_user_status(self, user_id: int) -> bool:
         with self.connection:
-            return bool(self.cursor.execute("SELECT status FROM users WHERE user_id=?", (user_id,)).fetchone()[0])
+            return self.cursor.execute("SELECT status FROM users WHERE user_id=?", (user_id,)).fetchone()
 
 
-    def set_status(self, user_id: int, status: bool) -> None:
+    def set_user_status(self, user_id: int, status: bool) -> None:
         with self.connection:
             self.cursor.execute("UPDATE users SET status=? WHERE user_id=?", (status, user_id,))
             self.connection.commit()
@@ -56,15 +57,16 @@ class Database():
             self.connection.commit()
 
 
-    def get_channels(self, channel_id: int) -> Any:
+    def get_channels(self, user_id: int) -> Any:
         with self.connection:
-            return self.cursor.execute("SELECT channel_id FROM channels WHERE user=?", (channel_id,)).fetchall()
+            return self.cursor.execute("SELECT channel_id, status FROM channels WHERE user=?", (user_id,)).fetchall()
     
 
     def add_channel(self, user_id: int, channel_id: int) -> None:
         with self.connection:
             self.cursor.execute("INSERT INTO channels (user, channel_id) VALUES (?, ?)", (user_id, channel_id,))
             self.connection.commit()
+            
 
 db = Database()
 db()

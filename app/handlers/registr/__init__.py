@@ -1,1 +1,0 @@
-from app.handlers.registr.user_reg import user_registration
