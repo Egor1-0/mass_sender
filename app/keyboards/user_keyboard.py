@@ -1,17 +1,17 @@
 from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder
 from aiogram.types import KeyboardButton, InlineKeyboardButton
 
-async def main_menu() -> any:
+def main_menu() -> any:
     keyboard = ReplyKeyboardBuilder()
     keyboard.add(KeyboardButton(text='Создать рассылку')).add(KeyboardButton(text='Добавить канал для рассылки')).add(KeyboardButton(text='Профиль⚙️'))
     return keyboard.adjust(2).as_markup(resize_keyboard = True, one_time_keyboard = True)
 
-async def get_post_menu() -> any:
+def get_post_menu() -> any:
     keyboard = InlineKeyboardBuilder()
     keyboard.add(InlineKeyboardButton(text='Да', callback_data='yes')).add(InlineKeyboardButton(text='Нет', callback_data='no'))
     return keyboard.adjust(2).as_markup()
 
-async def check(button: str, url: str) -> any:
+def check(button: str, url: str) -> any:
     if button and url:
         keyboard = InlineKeyboardBuilder()
         keyboard.add(InlineKeyboardButton(text=button, url=url))
@@ -19,7 +19,7 @@ async def check(button: str, url: str) -> any:
     else:
         return None
 
-async def check_menu() -> any:
+def check_menu() -> any:
     keyboard = ReplyKeyboardBuilder()
     keyboard.add(KeyboardButton(text='Да')).add(KeyboardButton(text='Нет'))
     return keyboard.adjust(2).as_markup(resize_keyboard = True, one_time_keyboard = True)

@@ -21,7 +21,7 @@ async def create_newsletter(message: Message, state: FSMContext):
 @user_state_create_sending.message(Post.get_post)
 async def get_post(message: Message, state: FSMContext):
     await state.update_data(get_post = message.message_id)
-    await message.answer('Добавлять кнопку-ссылку?', reply_markup=await get_post_menu())
+    await message.answer('Добавлять кнопку-ссылку?', reply_markup=get_post_menu())
 
 
 @user_state_create_sending.callback_query(F.data == 'yes')
@@ -43,11 +43,11 @@ async def add_buttons(callback: CallbackQuery, state: FSMContext):
 
     data = await state.get_data()
     await callback.message.bot.copy_message(chat_id=callback.message.chat.id, from_chat_id=callback.message.chat.id, message_id=data['get_post'], 
-                                   reply_markup=await check(data['get_button_text'], data['get_button_url']))
+                                   reply_markup=check(data['get_button_text'], data['get_button_url']))
     
     await state.set_state(Post.check)
 
-    await callback.message.answer('Все правильно?', reply_markup=await check_menu())
+    await callback.message.answer('Все правильно?', reply_markup=check_menu())
 
 
 @user_state_create_sending.message(Post.get_button_text)
@@ -65,9 +65,9 @@ async def get_button_url(message: Message, state: FSMContext):
 
     data = await state.get_data()
     await message.bot.copy_message(chat_id=message.chat.id, from_chat_id=message.chat.id, message_id=data['get_post'], 
-                                   reply_markup=await check(data['get_button_text'], data['get_button_url']))
+                                   reply_markup=check(data['get_button_text'], data['get_button_url']))
     
-    await message.answer('Все правильно?', reply_markup=await check_menu())
+    await message.answer('Все правильно?', reply_markup=check_menu())
 
 
 @user_state_create_sending.message(Post.check,  F.text == 'Да')
@@ -80,16 +80,16 @@ async def get_button_url(message: Message, state: FSMContext):
         print(channel_id[0])
         # try:
         await message.bot.copy_message(chat_id=channel_id[0], from_chat_id=message.chat.id, 
-                                           message_id=data['get_post'], reply_markup=await check(data['get_button_text'], data['get_button_url']))
+                                           message_id=data['get_post'], reply_markup=check(data['get_button_text'], data['get_button_url']))
         # except:
         #     continue
 
     await state.clear()
     
-    await message.answer('Рассылка завершена☑️. Выбери кнопки⌨️', reply_markup=await main_menu())
+    await message.answer('Рассылка завершена☑️. Выбери кнопки⌨️', reply_markup=main_menu())
 
 
 @user_state_create_sending.message(Post.check,  F.text == 'Нет')
 async def clear(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer('Рассылка отменена❌. Выбери кнопки⌨️', reply_markup=await main_menu())
+    await message.answer('Рассылка отменена❌. Выбери кнопки⌨️', reply_markup=main_menu())

@@ -13,9 +13,9 @@ user_router.message.filter(IsPayed())
 
 @user_router.message(CommandStart())
 async def start(message: Message):
-    await message.answer('Выберите кнопки⌨️', reply_markup=await main_menu())
+    await message.answer('Выберите кнопки⌨️', reply_markup=main_menu())
 
 
-@user_router.message()
-async def nothing(message: Message):
-    await message.answer('Неизвестное действие. Выберите кнопки⌨️', reply_markup=await main_menu())
+# @user_router.message()
+# async def nothing(message: Message):
+#     await message.answer('Неизвестное действие. Выберите кнопки⌨️', reply_markup=main_menu())

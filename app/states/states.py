@@ -1,7 +1,9 @@
 from aiogram.fsm.state import State, StatesGroup
 
 class Сhannel(StatesGroup):
-    get_channel = State()
+    get_channel_id = State()
+    get_channel_name = State()
+
 
 class Post(StatesGroup):
     get_post = State()

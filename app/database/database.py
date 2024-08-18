@@ -25,7 +25,7 @@ class Database():
                 (
                     item_id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user BIGINT NOT NULL,
-                    channel_name VARCHAR(200),
+                    channel_name VARCHAR(200) NOT NULL,
                     channel_id BIGINT NOT NULL,
                     status BOOLEAN DEFAULT(TRUE),
                     FOREIGN KEY (user) REFERENCES users (id)
@@ -59,14 +59,20 @@ class Database():
 
     def get_channels(self, user_id: int) -> Any:
         with self.connection:
-            return self.cursor.execute("SELECT channel_id, status FROM channels WHERE user=?", (user_id,)).fetchall()
+            return self.cursor.execute("SELECT channel_id, status, channel_name FROM channels WHERE user=?", (user_id,)).fetchall()
     
 
-    def add_channel(self, user_id: int, channel_id: int) -> None:
+    def add_channel(self, user_id: int, channel_id: int, channel_name: str) -> None:
         with self.connection:
-            self.cursor.execute("INSERT INTO channels (user, channel_id) VALUES (?, ?)", (user_id, channel_id,))
+            self.cursor.execute("INSERT INTO channels (user, channel_id, channel_name) VALUES (?, ?, ?)", (user_id, channel_id, channel_name,))
             self.connection.commit()
             
+    
+    def delete_channel(self, channel_id: int) -> None:
+        with self.connection:
+            self.cursor.execute("DELETE FROM channels WHERE channel_id=?", (channel_id,))
+            self.connection.commit()
+
 
 db = Database()
 db()
