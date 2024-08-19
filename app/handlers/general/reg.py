@@ -11,9 +11,7 @@ reg_router = Router()
 
 @reg_router.message(CommandStart())
 async def start(message: Message):
-    if db.check_user(message.from_user.id):
-        pass
-    else:
+    if not db.check_user(message.from_user.id):
         db.add_user(message.from_user.id)
     await message.answer('Выберите кнопки', reply_markup=main_reg_menu())
 

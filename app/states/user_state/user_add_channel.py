@@ -1,10 +1,10 @@
 from aiogram import F, Router
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 from app.filters.is_payed import IsPayed
-from app.keyboards.user_keyboard import main_menu, get_post_menu, check, check_menu
-from app.states.states import Сhannel, Post
+from app.keyboards.user_keyboard import main_menu
+from app.states.states import Сhannel
 
 from app.database import db
 

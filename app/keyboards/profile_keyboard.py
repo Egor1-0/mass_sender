@@ -15,5 +15,11 @@ def delete_channel(channel_id: int):
 
 def subscription_():
     keyboard = ReplyKeyboardBuilder()
-    keyboard.add(KeyboardButton(text='Купить подписку')).add(KeyboardButton(text='Назад'))
+    keyboard.button(text='Купить подписку').button(text='Назад')
     return keyboard.adjust(2).as_markup(resize_keyboard = True)
+
+
+def buy_subscription():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text='Купить подписку', pay=True)
+    return keyboard.as_markup()

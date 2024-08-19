@@ -14,7 +14,7 @@ class Database():
                 CREATE TABLE IF NOT EXISTS 'users' 
                 (
                     user_id BIGINT NOT NULL PRIMARY KEY,
-                    status BOOLEAN DEFAULT(FALSE)
+                    end_time_subscription INTEGER DEFAULT(0)
                 );
                   """
             )
@@ -40,14 +40,14 @@ class Database():
             return bool(self.cursor.execute("SELECT user_id FROM users WHERE user_id=?", (user_id,)).fetchone())
 
 
-    def check_user_status(self, user_id: int) -> bool:
+    def check_user_status(self, user_id: int):
         with self.connection:
-            return self.cursor.execute("SELECT status FROM users WHERE user_id=?", (user_id,)).fetchone()
+            return self.cursor.execute("SELECT end_time_subscription FROM users WHERE user_id=?", (user_id,)).fetchone()
 
 
-    def set_user_status(self, user_id: int, status: bool) -> None:
+    def set_user_status(self, user_id: int, end_time_subscription: bool) -> None:
         with self.connection:
-            self.cursor.execute("UPDATE users SET status=? WHERE user_id=?", (status, user_id,))
+            self.cursor.execute("UPDATE users SET end_time_subscription=? WHERE user_id=?", (end_time_subscription, user_id,))
             self.connection.commit()
 
 
@@ -57,7 +57,7 @@ class Database():
             self.connection.commit()
 
 
-    def get_channels(self, user_id: int) -> Any:
+    def get_channels(self, user_id: int):
         with self.connection:
             return self.cursor.execute("SELECT channel_id, status, channel_name FROM channels WHERE user=?", (user_id,)).fetchall()
     
